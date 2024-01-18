@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurante Guiness - Pedidos</title>
+</head>
+<body>
+    <h2>Adicionar Pedido</h2>
+    <form th:action="@{/adicionarPedido}" method="post" th:object="${pedido}">
+        <div>
+            <label>Mesa:</label>
+            <input type="number" th:field="*{mesa}" required />
+        </div>
+        
+        <div>
+            <label>Pedido:</label>
+            <input type="text" th:field="*{pedido}" required />
+        </div>
+
+        <button type="submit">Realizar Pedido</button>
+    </form>
+
+
+    <a th:href="@{/home}">Voltar para Mesas</a>
+</body>
+</html>

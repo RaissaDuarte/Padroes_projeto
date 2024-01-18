@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurante Guiness</title>
+    <style>
+        .table-box {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #000;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .table-box.unavailable {
+            background-color: red;
+        }
+
+        .table-box.available {
+            background-color: green;
+        }
+        .order-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Criar Mesa</h2>
+    <form th:action="@{/createTable}" method="post">
+        <label>Número da Mesa: </label>
+        <input type="number" name="numero" required />
+        <button type="submit">Adicionar Mesa</button>
+    </form>
+
+    <form th:action="@{/pedidos}" method="get">
+        <button type="submit">Fazer um Pedido</button>
+    </form>
+    
+    <h2>Mesas:</h2>
+    <div th:each="mesa : ${mesas}">
+        <div id="${'mesa-' + mesa.numero}" th:class="${mesa.disponibilidade} ? 'table-box available' : 'table-box unavailable'"
+            th:text="${mesa.numero}"
+            th:onclick="'toggleTableStatus(' + ${mesa.numero} + ')'">
+        </div>
+    </div>
+
+    <div>
+        <h3>Todos os Pedidos:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Número da Mesa</th>
+                    <th>Descrição do Pedido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${listpedidos}">
+                    <td th:text="${pedido.mesa}"></td>
+                    <td th:text="${pedido.pedido}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        function toggleTableStatus(numero) {
+
+            var tableBox = document.querySelector('[id="' + numero + '"]');
+
+            var confirmStatus = confirm("Deseja deixar a mesa "+ numero+ " indisponível?");
+
+            if (confirmStatus) {
+                console.log("indisponivel");
+                tableBox.classList.remove('available');
+                tableBox.classList.add('unavailable');
+            } else {
+                tableBox.classList.remove('unavailable');
+                tableBox.classList.add('available');
+            }
+        }
+    </script>
+</body>
+</html>
