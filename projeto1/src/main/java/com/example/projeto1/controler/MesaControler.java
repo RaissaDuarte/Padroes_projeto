@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import com.example.projeto1.command.ComandoEncerrarExpediente;
+import com.example.projeto1.command.Invoker;
 import com.example.projeto1.model.Mesa;
 import com.example.projeto1.model.Pedido;
 import com.example.projeto1.singleton.SistemaRestaurante;
@@ -18,6 +21,7 @@ public class MesaControler {
     
     private final SistemaRestaurante sistemaRestaurante;
     private List<Mesa> listmesas = new ArrayList<>();
+    private Mesa modelMesa;
 
     @Autowired
     private PedidoController pedidoController;
@@ -32,7 +36,8 @@ public class MesaControler {
 @GetMapping("/home")
 public String TelaMesas(Model model) {
     model.addAttribute("mesas", listmesas);
-        return "TelaMesas";
+    model.addAttribute("mesa", new Mesa(0)); 
+    return "TelaMesas";
 }
 
 @PostMapping("/createTable")
@@ -71,5 +76,18 @@ public String TelaMesas(Model model) {
 
     //     return "redirect:/home";
     // }
+
+    @PostMapping("/encerrarExpediente")
+    public String encerrarExpediente() {
+        List<Pedido> listpedidos = pedidoController.getPedidos();
+        ComandoEncerrarExpediente comando = new ComandoEncerrarExpediente(sistemaRestaurante, listmesas, listpedidos);
+        Invoker invoker = new Invoker();
+        invoker.setComando(comando);
+        invoker.executarComando();
+        System.out.println("mesa: " + listmesas + ", pedidos: "+listped);
+
+        // return ResponseEntity.ok("Expediente encerrado com sucesso!");
+        return "redirect:/home";
+    }
 
 }

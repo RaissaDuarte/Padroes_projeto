@@ -48,47 +48,53 @@
     
     <h2>Mesas:</h2>
     <div th:each="mesa : ${mesas}">
-        <div id="${'mesa-' + mesa.numero}" th:class="${mesa.disponibilidade} ? 'table-box available' : 'table-box unavailable'"
+        <div th:class="${mesa.disponibilidade} ? 'table-box available' : 'table-box unavailable'"
             th:text="${mesa.numero}"
-            th:onclick="'toggleTableStatus(' + ${mesa.numero} + ')'">
+            th:onclick="'toggleTableStatus(this, ' + ${mesa.numero} + ',' + ${mesa.disponibilidade} + ')'">
         </div>
     </div>
 
     <div>
-        <h3>Todos os Pedidos:</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Número da Mesa</th>
-                    <th>Descrição do Pedido</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="pedido : ${listpedidos}">
-                    <td th:text="${pedido.mesa}"></td>
-                    <td th:text="${pedido.pedido}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <h3>___________________</h3>
+        <button th:onclick="encerrarExpediente()">Encerrar Expediente</button>
     </div>
 
 
-    <script>
-        function toggleTableStatus(numero) {
+    <script th:inline="javascript">
+        function toggleTableStatus(element, numero, disponibilidade) {
+            numero = parseInt(numero);
 
-            var tableBox = document.querySelector('[id="' + numero + '"]');
-
-            var confirmStatus = confirm("Deseja deixar a mesa "+ numero+ " indisponível?");
-
+            var confirmStatus = confirm("Deseja deixar a mesa " + numero + " indisponível?");
+            
             if (confirmStatus) {
                 console.log("indisponivel");
-                tableBox.classList.remove('available');
-                tableBox.classList.add('unavailable');
+                element.classList.remove('available');
+                element.classList.add('unavailable');
             } else {
-                tableBox.classList.remove('unavailable');
-                tableBox.classList.add('available');
+                element.classList.remove('unavailable');
+                element.classList.add('available');
             }
         }
+
+
+        function encerrarExpediente() {
+            var confirmStatus = confirm("Deseja encerrar o expediente?");
+
+            if (confirmStatus) {
+                fetch('/encerrarExpediente', { method: 'POST' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao encerrar expediente');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Expediente encerrado:', data);
+                    // location.reload();
+                })
+                .catch(error => console.error('Erro ao encerrar expediente:', error.message));
+    }
+}
     </script>
 </body>
 </html>

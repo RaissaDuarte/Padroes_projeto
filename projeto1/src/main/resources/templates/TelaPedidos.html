@@ -17,6 +17,26 @@
         </div>
 
         <button type="submit">Realizar Pedido</button>
+
+        <div>
+            <h3>___________________</h3>
+            <h3>Todos os Pedidos:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número da Mesa</th>
+                        <th>Descrição do Pedido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pedido : ${listpedidos}">
+                        <td th:text="${pedido.mesa}"></td>
+                        <td th:text="${pedido.pedido}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </form>
 
 

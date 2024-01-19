@@ -45,7 +45,11 @@ public class PedidoController {
 
     }
 
-    // public List<Pedido> getTodosPedidos(){
-    //     return listpedidos;
-    // }
+    public List<Pedido> getPedidos(){
+        return this.listpedidos;
+    }
+    public void limparPedidos(){
+        listpedidos.clear();
+        System.out.println("Pedidos reicializados!" + listpedidos);
+    }
 }
