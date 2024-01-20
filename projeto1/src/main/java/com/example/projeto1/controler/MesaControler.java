@@ -84,7 +84,8 @@ public String TelaMesas(Model model) {
         Invoker invoker = new Invoker();
         invoker.setComando(comando);
         invoker.executarComando();
-        System.out.println("mesa: " + listmesas + ", pedidos: "+listped);
+        // listpedidos.clear();
+        System.out.println("pedidos: mesacontroler"+listpedidos);
 
         // return ResponseEntity.ok("Expediente encerrado com sucesso!");
         return "redirect:/home";

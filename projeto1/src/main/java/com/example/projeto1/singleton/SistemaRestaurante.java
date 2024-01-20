@@ -15,6 +15,8 @@ public class SistemaRestaurante {
     private Map<Integer, Pedido> orders;
     private Map<Integer, Mesa> tables;
 
+
+
     public SistemaRestaurante() {
         this.orders = new HashMap<>();
         this.tables = new HashMap<>();
@@ -28,4 +30,5 @@ public class SistemaRestaurante {
         PedidoController pc = new PedidoController(this);
         pc.limparPedidos();
     }
+
 }

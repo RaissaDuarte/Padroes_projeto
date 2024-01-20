@@ -86,10 +86,10 @@
                     if (!response.ok) {
                         throw new Error('Erro ao encerrar expediente');
                     }
-                    return response.text();
                 })
                 .then(data => {
-                    console.log('Expediente encerrado:', data);
+                    console.log('E
+                    xpediente encerrado: na tela');
                     // location.reload();
                 })
                 .catch(error => console.error('Erro ao encerrar expediente:', error.message));

@@ -6,6 +6,7 @@ import com.example.projeto1.singleton.SistemaRestaurante;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,8 @@ public class PedidoController {
     private final SistemaRestaurante sistemaRestaurante;
     private List<Pedido> listpedidos = new ArrayList<>();
 
-    
-    
 
-    public PedidoController(SistemaRestaurante sistemaRestaurante) {
+        public PedidoController(SistemaRestaurante sistemaRestaurante) {
         this.sistemaRestaurante = sistemaRestaurante;
     }
 
@@ -46,8 +45,9 @@ public class PedidoController {
     }
 
     public List<Pedido> getPedidos(){
-        return this.listpedidos;
+        return listpedidos;
     }
+
     public void limparPedidos(){
         listpedidos.clear();
         System.out.println("Pedidos reicializados!" + listpedidos);
