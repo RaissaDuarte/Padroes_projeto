@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.example.projeto1.model.Pedido;
+import com.example.projeto1.AbstractFactory.AbstractFactory;
 import com.example.projeto1.controler.PedidoController;
 import com.example.projeto1.model.Mesa;
 
@@ -14,10 +15,18 @@ import com.example.projeto1.model.Mesa;
 public class SistemaRestaurante {
     private Map<Integer, Pedido> orders;
     private Map<Integer, Mesa> tables;
+    private AbstractFactory factory;
 
 
 
-    public SistemaRestaurante() {
+
+    // public SistemaRestaurante() {
+    //     this.orders = new HashMap<>();
+    //     this.tables = new HashMap<>();
+    // }
+
+    public SistemaRestaurante(AbstractFactory factory) {
+        this.factory = factory;
         this.orders = new HashMap<>();
         this.tables = new HashMap<>();
     }
@@ -27,7 +36,7 @@ public class SistemaRestaurante {
             m.setDisponibilidade(true);
         }
         
-        PedidoController pc = new PedidoController(this);
+        PedidoController pc = new PedidoController(this, factory);
         pc.limparPedidos();
     }
 

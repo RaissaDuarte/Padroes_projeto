@@ -1,6 +1,6 @@
 package com.example.projeto1.model;
 
-public class Pedido {
+public class Pedido implements Cloneable{
     private String pedido;
     private int mesa;
 
@@ -22,6 +22,11 @@ public class Pedido {
 
     public void setPedido(String pe){
         pedido = pe;
+    }
+
+    @Override
+    public Pedido clone() throws CloneNotSupportedException {
+        return (Pedido) super.clone();
     }
     
 

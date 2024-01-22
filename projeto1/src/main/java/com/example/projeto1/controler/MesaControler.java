@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import com.example.projeto1.AbstractFactory.AbstractFactory;
 import com.example.projeto1.command.ComandoEncerrarExpediente;
 import com.example.projeto1.command.Invoker;
 import com.example.projeto1.model.Mesa;
@@ -22,15 +23,18 @@ public class MesaControler {
     private final SistemaRestaurante sistemaRestaurante;
     private List<Mesa> listmesas = new ArrayList<>();
     private Mesa modelMesa;
+    private AbstractFactory abstractFactory;
+
 
     @Autowired
     private PedidoController pedidoController;
 
 
-    public MesaControler(SistemaRestaurante sistemaRestaurante, List<Mesa> mesas, PedidoController pedidoController) {
+    public MesaControler(SistemaRestaurante sistemaRestaurante, List<Mesa> mesas, PedidoController pedidoController, AbstractFactory abstractFactory) {
         this.sistemaRestaurante = sistemaRestaurante;
         this.listmesas = mesas;
         this.pedidoController = pedidoController;
+        this.abstractFactory = abstractFactory;
     }
 
 @GetMapping("/home")
@@ -42,7 +46,7 @@ public String TelaMesas(Model model) {
 
 @PostMapping("/createTable")
     public String createTable(@RequestParam int numero) {
-        Mesa newMesa = new Mesa(numero);
+        Mesa newMesa = abstractFactory.createMesa(numero);
         listmesas.add(newMesa);
         return "redirect:/home";
     }
